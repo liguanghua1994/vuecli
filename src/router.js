@@ -1,23 +1,44 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import userList from './views/system/user/userList.vue'
+import userAdd from './views/system/user/userAdd.vue'
+import orgpostList from './components/orgpostList.vue'
+import roleList from './components/roleList.vue'
+import dictList from './components/dictList.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: Home
+      path:'/',
+      component:Home,
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
+      path: '/orgpostList',
+      name: 'orgpostList',
+      component: orgpostList
+    },
+    {
+      path: '/userList',
+      name: 'userList',
+      component: userList
+    },
+    {
+      path: '/userAdd',
+      name: 'userAdd',
+      component: userAdd
+    },
+    {
+      path: '/roleList',
+      name: 'roleList',
+      component: roleList
+    },
+    {
+      path: '/dictList',
+      name: 'dictList',
+      component: dictList
+    },
   ]
 })

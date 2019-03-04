@@ -1,27 +1,32 @@
 <template>
-        <el-menu
-                default-active="2"
-                class="el-menu-vertical-demo"
-                background-color="#545c64"
-                text-color="#fff"
-                active-text-color="#ffd04b">
-            <el-submenu :index="toString(menu.id)" v-for="menu in menus">
-                <template slot="title">
-                    <i :class="menu.icon"></i>
-                    <span>
-                        {{menu.name}}
-                    </span>
-                </template>
-                <el-menu-item :index="toString(subMenu.id)" v-for="subMenu in menu.subMenus">
-                    {{subMenu.name}}
-                </el-menu-item>
-            </el-submenu>
-        </el-menu>
+    <el-menu
+            :default-active="$route.path"
+            class="el-menu-vertical-demo"
+            background-color="#545c64"
+            text-color="#fff"
+            active-text-color="#ffd04b"
+            @open="handleOpen"
+            @close="handleClose"
+            router>
+        <el-submenu :index="menu.id.toString()" v-for="menu in menus">
+            <template slot="title">
+                <i :class="menu.icon"></i>
+                <span>{{menu.name}}</span>
+            </template>
+            <el-menu-item :index="subMenu.rlink" v-for="subMenu in menu.subMenus" @click="toRouterLink(subMenu)">
+                {{subMenu.name}}
+            </el-menu-item>
+        </el-submenu>
+    </el-menu>
 </template>
 
 <script>
+
+    import store from '@/store';
+
     export default {
         name: "leftNav",
+        store,
         data(){
             return {
                 menus:[
@@ -32,80 +37,62 @@
                         subMenus:[
                             {
                                 id:10001,
-                                name:'组织机构管理'
+                                name:'组织机构管理',
+                                rlink:'/orgpostList'
                             },
                             {
                                 id:10002,
-                                name:'角色管理'
+                                name:'角色管理',
+                                rlink:'/roleList'
                             },
                             {
                                 id:10003,
-                                name:'用户管理'
+                                name:'员工管理',
+                                rlink:'/userList'
                             },
                             {
                                 id:10004,
-                                name:'字典管理'
+                                name:'字典管理',
+                                rlink:'/dictList'
                             },
-                        ]
-                    },
-                    {
-                        id:20000,
-                        name:'销售模块',
-                        icon:'el-icon-phone',
-                        subMenus:[
-                            {
-                                id:20001,
-                                name:'客户管理'
-                            },
-                            {
-                                id:20002,
-                                name:'我的客户订单'
-                            },
-                            {
-                                id:20003,
-                                name:'销售提成'
-                            }
-                        ]
-                    },
-                    {
-                        id:30000,
-                        name:'客服模块',
-                        icon:'el-icon-service',
-                        subMenus:[
-                            {
-                                id:30001,
-                                name:'下单'
-                            },
-                            {
-                                id:30002,
-                                name:'我的客户订单'
-                            },
-                            {
-                                id:30003,
-                                name:'对账单'
-                            }
-                        ]
-                    },
-                    {
-                        id:40000,
-                        name:'采购模块',
-                        icon:'el-icon-goods',
-                        subMenus:[
-                            {
-                                id:40001,
-                                name:'资料价格录入'
-                            },
-                            {
-                                id:40002,
-                                name:'订单分配与价格等级'
-                            },
-                            {
-                                id:40003,
-                                name:'供应商管理'
-                            }
                         ]
                     },
                 ]
+            }
+        },
+        methods: {
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            toRouterLink(subMenu){
+
+                //判断是否已经存在标签页，如果是，将该标签页激活，否，新添加标签页
+                var isExist=false;
+                var tags=store.state.tags;
+                for (var i in tags){
+                    if (subMenu.rlink==tags[i].routerLink) {
+                        tags[store.state.activeTagIdx].isActive=false;//取消之前的激活状态
+                        tags[i].isActive=true;//设置当前的激活状态
+                        store.state.activeTagIdx=i;//改变激活索引
+                        isExist=true;
+                        break;
+                    }
+                }
+
+                if (isExist) return;
+
+                //新添加标签页
+                var tag={
+                    tagName:subMenu.name,
+                    routerLink:subMenu.rlink,
+                    isActive:true
+                };
+                tags[store.state.activeTagIdx].isActive=false;//取消之前的激活状态
+                tags.push(tag);//添加标签页
+                store.state.activeTagIdx=tags.length-1;//设置当前的激活索引为最后一个
             }
         }
     }
@@ -119,7 +106,7 @@
         text-align: left;
     }
     li.el-submenu {
-        width: 169px;
+        width: 170px;
         text-align: left;
     }
 </style>
