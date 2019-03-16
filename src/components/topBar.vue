@@ -22,7 +22,7 @@
                 </el-popover>
             </li>
             <li class="bar-item">
-                <a href="" class="bar-link">
+                <a @click="logout" href="javascript:;" class="bar-link">
                     <i class="icon-exit bar-icon"></i>
                     <span class="bar-text">退出</span>
                 </a>
@@ -32,8 +32,16 @@
 </template>
 
 <script>
+    import store from '@/store'
+
     export default {
-        name: "topBar"
+        store,
+        name: "topBar",
+        methods:{
+            logout(){
+                this.$store.commit('login',false);//模拟退出登录
+            }
+        }
     }
 </script>
 

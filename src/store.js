@@ -13,10 +13,13 @@ export default new Vuex.Store({
         routerLink:'/'
       }
     ],
-    tableData:[]
+    tableData:[],
+    isLogin:false
   },
   mutations: {
-
+      login(state,isLogin){
+        state.isLogin=isLogin;
+      }
   },
   actions: {
 

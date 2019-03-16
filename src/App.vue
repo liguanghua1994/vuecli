@@ -1,28 +1,78 @@
 <template>
   <div id="app">
-    <!--<div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-    <router-view/>-->
-    <div class="top-box global-border-box">
-      <top-bar></top-bar>
+
+    <div v-if="isLogin" id="main">
+      <div class="top-box global-border-box">
+        <top-bar></top-bar>
+      </div>
+      <div id="left-box" :style="leftBoxStyle" class="left-box global-border-box">
+        <left-nav></left-nav>
+      </div>
+      <div id="right-box" :style="rightBoxStyle" class="right-box global-border-box">
+        <right-tag></right-tag>
+        <router-view></router-view>
+      </div>
     </div>
-    <div id="left-box" class="left-box global-border-box">
-      <left-nav></left-nav>
+    <div v-else id="login">
+      <header class="header-wrp">
+        <section class="header-box">
+          <img src="@/assets/img/v-logo.png" alt="图片加载失败" class="header-logo">
+        </section>
+      </header>
+
+      <section class="content-wrp">
+        <section class="content-box">
+          <section class="login-box global-border-box">
+            <h1 class="login-title">账号登录</h1>
+            <section class="username-wrp">
+              <section class="username-box global-border-box">
+                <label for="" class="login-label icon-user"></label>
+                <input type="text" class="login-input global-border-box" placeholder="账号">
+              </section>
+            </section>
+            <section class="username-wrp">
+              <section class="username-box global-border-box">
+                <label for="" class="login-label icon-lock"></label>
+                <input type="password" class="login-input global-border-box" placeholder="密码">
+              </section>
+              <aside class="username-msg">用户名不正确</aside>
+            </section>
+            <section class="btn-wrp">
+              <a @click="login" class="login-btn">登录</a>
+            </section>
+          </section>
+        </section>
+      </section>
+
+      <footer class="footer-wrp">
+        <p class="footer-link-box">
+          <a href="" class="footer-link">关于智乘</a>
+          <span class="footer-link-separator">|</span>
+          <a href="" class="footer-link">智乘服务</a>
+          <span class="footer-link-separator">|</span>
+          <a href="" class="footer-link">智乘优势</a>
+          <span class="footer-link-separator">|</span>
+          <a href="" class="footer-link">联系我们</a>
+          <span class="footer-link-separator">|</span>
+          <a href="" class="footer-link">友情链接</a>
+          <span class="footer-link-separator">|</span>
+          <a href="" class="footer-link">在线服务</a>
+        </p>
+        <p class="footer-copyright-box">
+          Copyright © 2018 广州智乘企业征信有限公司 版权所有
+        </p>
+      </footer>
     </div>
-    <div id="right-box" class="right-box global-border-box">
-      <right-tag></right-tag>
-      <router-view></router-view>
-    </div>
+
   </div>
 </template>
 
 <style>
   @import './assets/css/common.css';
+  @import './assets/css/login.css';
 </style>
 <style>
-  html,body,#app{
+  html,body,#app,#main{
     width: 100%;
     height: 100%;
   }
@@ -73,13 +123,37 @@
   import leftNav from './components/leftNav';
   import topBar from './components/topBar.vue';
   import rightTag from './components/rightTag.vue';
+  import store from './store';
 
 
   export default{
+    store,
     components:{
       'left-nav':leftNav,
       'top-bar':topBar,
       'right-tag':rightTag
+    },
+    data(){
+      return {
+
+        leftBoxStyle:{
+          height:window.innerHeight-50+'px'
+        },
+        rightBoxStyle:{
+          width:window.innerWidth-170+'px',
+          height:window.innerHeight-50+'px'
+        }
+      }
+    },
+    computed:{
+      isLogin(){
+        return this.$store.state.isLogin;
+      }
+    },
+    methods:{
+      login(){
+        this.$store.commit('login',true);//模拟登陆成功
+      }
     }
   }
 </script>

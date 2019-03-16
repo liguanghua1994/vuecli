@@ -137,8 +137,8 @@
                 // });
 
                 //模拟接口查询
-                this.total=this.tableData.length;
-                this.isLoading=false;
+                // this.total=this.tableData.length;
+                // this.isLoading=false;
             },
             handleSizeChange(val) {
                 this.pageSize=val;

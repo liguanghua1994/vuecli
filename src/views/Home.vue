@@ -115,7 +115,7 @@
         </el-col>
         <el-col :span="6">
           <div class="home-right-box">
-            <h3 class="shortcut-title">实时监控</h3>
+            <h3 class="shortcut-title"n style="margin-bottom: 40px">实时监控</h3>
             <el-row style="margin-bottom: 10px;" :gutter="50">
               <el-col :span="12">
                 <el-progress type="circle" :percentage="100" status="text" :width="100">Done</el-progress>

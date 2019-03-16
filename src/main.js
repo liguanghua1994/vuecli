@@ -13,15 +13,6 @@ Vue.use(ElementUI);
 new Vue({
   router,
   store,
-  render: h => h(App),
-  mounted() {
-    var btmHeight=window.innerHeight-50;
-    $('#left-box,#right-box').height(btmHeight);
-
-    console.log('浏览器滚动条的宽度',common.getScrollbarWidth())
-
-    var rightWidth=window.innerWidth-170;
-    $('#right-box').width(rightWidth);
-  }
+  render: h => h(App)
 }).$mount('#app')
 
